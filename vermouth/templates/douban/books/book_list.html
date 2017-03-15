@@ -1,0 +1,46 @@
+{% extends "douban/base.html" %}
+{% load staticfiles i18n compress %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/grid/cubeportfolio.min.css' %}"/>
+{% endblock %}
+
+{% block nav-douban %}
+    <li class="current-menu-item"><a href="/douban/index/">豆瓣</a></li>
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="container">
+        <div id="grid-container">
+            <div class="cbp-item">
+                <a href="#" title="custom title 1">
+                    <img src="{% static 'douban/images/books/xx.jpg' %}" alt="custom alt 1" width="100%">
+                </a>
+            </div>
+            <div class="cbp-item">
+                <a href="#" title="custom title 2">
+                    <img src="{% static 'douban/images/books/xx.jpg' %}"  width="100%">
+                </a>
+            </div>
+            <div class="cbp-item">
+                <a href="#" title="custom title 3">
+                    <img src="{% static 'douban/images/books/xx.jpg' %}"  width="100%">
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    <script type='text/javascript' src="{% static 'js/grid/jquery.cubeportfolio.min.js' %}"></script>
+{% endblock %}
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery('#grid-container').cubeportfolio({
+            // options
+        });
+    });
+</script>

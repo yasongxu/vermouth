@@ -1,3 +1,5 @@
+*.html linguist-language=python
+
 ### OSX ###
 .DS_Store
 .AppleDouble
@@ -74,4 +76,3 @@ vermouth/media/
 
 staticfiles/
 
-*.html linguist-language=python

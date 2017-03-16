@@ -73,3 +73,5 @@ vermouth/media/
 
 
 staticfiles/
+
+*.html linguist-language=python

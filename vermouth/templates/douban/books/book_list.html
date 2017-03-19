@@ -2,6 +2,10 @@
 {% load staticfiles i18n compress %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/grid/cubeportfolio.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'douban/css/book_list.css' %}"/>
+    {#    <link rel='stylesheet' id='responsive-css-css'#}
+    {#          href="{% static 'css/bootstrap.min.css' %}"#}
+    {#          type='text/css' media='all'/>#}
 {% endblock %}
 
 {% block nav-douban %}
@@ -9,25 +13,75 @@
 {% endblock %}
 
 
-
 {% block content %}
     <div class="container">
-        <div id="grid-container">
-            <div class="cbp-item">
-                <a href="#" title="custom title 1">
-                    <img src="{% static 'douban/images/books/xx.jpg' %}" alt="custom alt 1" width="100%">
-                </a>
+        <div id="js-filters-lightbox-gallery1" class="cbp-l-filters-dropdown cbp-l-filters-dropdown-floated">
+            <div class="cbp-l-filters-dropdownWrap">
+                <div class="cbp-l-filters-dropdownHeader">图书排序</div>
+                <div class="cbp-l-filters-dropdownList">
+                    <div class="order_by_active order_by" id="default">默认排序</div>
+                    <div class="order_by" id="score">按评分排序</div>
+                </div>
             </div>
-            <div class="cbp-item">
-                <a href="#" title="custom title 2">
-                    <img src="{% static 'douban/images/books/xx.jpg' %}"  width="100%">
-                </a>
+        </div>
+        <div id="js-filters-juicy-projects" class="cbp-l-filters-button">
+            {% for menu in menu_counts %}
+                  <div class="cbp-filter-item" id={{ menu.name }}>
+                {{ menu.name }}
+                <div class="cbp-filter-counter">{{ menu.count }}</div>
             </div>
-            <div class="cbp-item">
-                <a href="#" title="custom title 3">
-                    <img src="{% static 'douban/images/books/xx.jpg' %}"  width="100%">
-                </a>
-            </div>
+            {% endfor %}
+        <span style="display: none" id="menu_name_hide">{{  menu_name }}</span>
+        </div>
+        <div id="js-grid-juicy-projects" class="cbp">
+            {% for book in books %}
+                <div class="cbp-item web-design logos">
+                    <div class="cbp-caption">
+                        <div class="cbp-caption-defaultWrap">
+                            <img class="book_img" src="{{ book.detail.images.large }}" alt="">
+                        </div>
+                        <div class="cbp-caption-activeWrap">
+                            <div class="cbp-l-caption-alignCenter">
+                                <div class="cbp-l-caption-body">
+                                    <a href="/douban/book/{{ book.subject }}"
+                                       class=" cbp-l-caption-buttonLeft">查看&下载</a>
+                                    <a href="{{ book.detail.images.large }}"
+                                       class="cbp-lightbox cbp-l-caption-buttonRight"
+                                       data-title="点击下一张">查看大图</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cbp-l-grid-projects-title">{{ book.name }}</div>
+                    <div class="cbp-l-grid-projects-desc">{{ book.detail.author.0 }}/{{ book.detail.pubdate }}/{{ book.detail.price }}/{{ book.detail.rating.average }}分</div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="pagination">
+            <ul>
+                {% if books.has_previous %}
+                    <li><a href="/douban/index/?menu_name={{ menu_name }}&page={{ books.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+
+                {% for page in pages_to_show %}
+                    {% if page == -1 %}
+                        <li class="disabled"><a href="/douban/index/?menu_name={{ menu_name }}&page={{ page }}">&hellip;</a></li>
+                    {% elif page == books.number %}
+                        <li class="active"><a href="/douban/index/?menu_name={{ menu_name }}&page={{ page }}">{{ page }}</a></li>
+                    {% else %}
+                        <li><a href="/douban/index/?menu_name={{ menu_name }}&page={{ page }}">{{ page }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if books.has_next %}
+                    <li><a href="/douban/index/?menu_name={{ menu_name }}&page={{ books.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="disabled"><a href="/douban/index/?menu_name={{ menu_name }}&page={{ page }}">&raquo;</a></li>
+                {% endif %}
+
+            </ul>
         </div>
     </div>
 {% endblock %}
@@ -35,12 +89,7 @@
 
 {% block js %}
     <script type='text/javascript' src="{% static 'js/grid/jquery.cubeportfolio.min.js' %}"></script>
+    <script type='text/javascript' src="{% static 'douban/js/gridload/box_load.js' %}"></script>
+    <script type='text/javascript' src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
+    <script type='text/javascript' src="{% static 'douban/js/books/book_list.js' %}"></script>
 {% endblock %}
-
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        jQuery('#grid-container').cubeportfolio({
-            // options
-        });
-    });
-</script>

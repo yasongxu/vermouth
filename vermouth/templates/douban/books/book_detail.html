@@ -1,0 +1,138 @@
+{% extends "douban/base.html" %}
+{% load staticfiles i18n compress %}
+{% block css %}
+    <link rel='stylesheet' id='responsive-css-css'
+          href="{% static 'css/bootstrap.min.css' %}"
+          type='text/css' media='all'/>
+    <link rel='stylesheet' href="{% static 'douban/css/book_detail.css' %}" type='text/css'/>
+{% endblock %}
+
+{% block nav-douban %}
+    <li class="current-menu-item"><a href="/douban/index/">豆瓣</a></li>
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <!-- start of page content -->
+            <div class="col-sm-8 page-content">
+                <ul class="breadcrumb">
+                    <li><a href="#">当前位置：</a></li>
+                    <li><a href="#">豆瓣图书</a><span class="divider">>></span></li>
+                    <li><a href="#">{{ book.menu_type }}</a> <span class="divider">>></span></li>
+                    <li class="active">{{ book.name }}</li>
+                </ul>
+                <article class=" type-post format-standard hentry clearfix">
+                    <h1 class="post-title"><a href="#">{{ book.name }}</a></h1>
+
+                    <div class="post-meta clearfix">
+                        <span class="date">出版：{{ book.detail.pubdate }}</span>
+            <span class="category"><a href="#"
+                                      title="View all posts in Server &amp; Database">类型：{{ book.menu_type }}</a></span>
+            <span class="comments"><a href="#"
+                                      title="Comment on Integrating WordPress with Your Website">作者：{{ book.detail.author.0 }}</a></span>
+                        <span class="like-count">{{ book.score }}分</span>
+                    </div>
+                    <!-- end of post meta -->
+                    <div class="row">
+                        <div class="col-sm-12" style="margin-left: 10px">
+                            <img src="{{ book.detail.images.large }}" class="book_detail_pic" alt="">
+
+                            <div class="book_desc_div">
+                                <ul class="list-unstyled">
+                                    <li><span>{{ book.name }}</span></li>
+                                    <li><span>作者：{{ book.detail.author.0 }}</span></li>
+                                    <li><span>译者：{{ book.detail.translator.0 }}</span></li>
+                                    <li><span>页数：{{ book.detail.pages }}</span></li>
+                                    <li><span>价格：{{ book.detail.price }}</span></li>
+                                    <li>
+                                        <span>标签：{{ book.detail.tags.0.name }},{{ book.detail.tags.1.name }},{{ book.detail.tags.2.name }}</span>
+                                    </li>
+                                    <li><span>出版社：{{ book.detail.publisher }}</span></li>
+                                    <li><span>ISBN：{{ book.detail.isbn13 }}</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content_summery summary_t">
+                        <p class="bolder_s_p">内容简介</p>
+
+                        <p class="s_p_info">{{ book.detail.summary }}</p>
+                    </div>
+                    <div class="author_summery summary_t">
+                        <p class="bolder_s_p">作者简介</p>
+
+                        <p class="s_p_info">{{ book.detail.author_intro }}</p>
+                    </div>
+                    <div class="author_summery summary_t">
+                        <p class="bolder_s_p">目录...</p>
+
+                        <p class="s_p_info">{{ book.detail.catalog }}</p>
+                    </div>
+                </article>
+            </div>
+            <!-- end of page content -->
+            <!-- start of sidebar -->
+            <aside class="col-sm-4 page-sidebar" style="margin-top: 88px">
+                <section class="widget">
+                    <div class="support-widget">
+                        <h3 class="title">Support</h3>
+                        <p style="margin-top: 6px" class="intro">如果下方没有购买链接或者下载链接，请补充。</p>
+                    </div>
+                </section>
+                <section class="widget">
+                    <h3 class="title">下载区</h3>
+                    <ul id="recentcomments">
+                        <li class="recentcomments"><a href="#" rel="external nofollow" class="url">Kindle</a></li>
+                        <li class="recentcomments"><a href="#" rel="external nofollow" class="url">百度网盘</a></li>
+                        <li class="recentcomments"><a href="#" rel="external nofollow" class="url">360网盘</a></li>
+                        <li class="recentcomments"><a href="#" rel="external nofollow" class="url">CSDN</a></li>
+                    </ul>
+                </section>
+                <section class="widget">
+                    <h3 class="title">购买区</h3>
+                    <ul class="articles">
+                        <li class="article-entry standard">
+                            <h4><a style="color: #337ab7" >京东</a></h4>
+                    <span class="article-meta">25 Feb, 2013 in <a style="color: #3b4348">last collect</a></span>
+                            <span class="like-count">价格：66</span>
+                        </li>
+                        <li class="article-entry standard">
+                            <h4><a style="color: #337ab7" >当当网</a></h4>
+                            <span class="article-meta">24 Feb, 2013 in<a style="color: #3b4348">last collect</a></span>
+                            <span class="like-count">价格：66</span>
+                        </li>
+                        <li class="article-entry video">
+                            <h4><a style="color: #337ab7" >亚马逊</a></h4>
+                            <span class="article-meta">23 Feb, 2013 in <a style="color: #3b4348">last collect</a></span>
+                            <span class="like-count">价格：66</span>
+                        </li>
+                        <li class="article-entry image">
+                            <h4><a style="color: #337ab7" >天猫图书</a></h4>
+                    <span class="article-meta">22 Feb, 2013 in <a style="color: #3b4348">last collect</a></span>
+                            <span class="like-count">价格：66</span>
+                        </li>
+                    </ul>
+                </section>
+
+
+                <section class="widget"><h3 class="title">图书分类</h3>
+                    <ul>
+                        {% for t in book.detail.tags|slice:":6" %}
+                            <li><a href="#" title="Lorem ipsum dolor sit amet,">{{ t.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </section>
+
+
+            </aside>
+            <!-- end of sidebar -->
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    <script type='text/javascript' src="{% static 'douban/js/books/book_detail.js' %}"></script>
+{% endblock %}

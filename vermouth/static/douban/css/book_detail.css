@@ -1,0 +1,40 @@
+form.search-form input.search-term {
+    height: 48px;
+}
+
+.book_desc_div {
+    border-left: solid 2px #999999;
+    height: 256px;
+    float: left;
+}
+
+.book_detail_pic {
+    float: left;
+}
+
+.book_desc_div ul {
+    height: 300px;
+}
+
+.book_desc_div ul li {
+    line-height: 32px;
+}
+
+.book_desc_div ul > :first-child {
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+.bolder_s_p {
+    font-weight: bolder;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.summary_t{
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+.s_p_info{
+    text-indent:32px;
+    line-height: 30px;
+}
